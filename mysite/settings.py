@@ -27,10 +27,30 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TINYMCE_DEFAULT_CONFIG = {
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'modern',
+    'plugins': 'link image preview codesample contextmenu table code lists',
+    'toolbar1': 'formatselect | bold italic underline | alignleft aligncenter alignright alignjustify '
+               '| bullist numlist | outdent indent | table | link image | codesample | preview code',
+    'toolbar2': '''
+    visualblocks visualchars |
+    charmap hr pagebreak nonbreaking anchor | code |
+    ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'inline': False,
+    'statusbar': True,
+    'width': 'auto',
+    'height': 360,
+}
 
 # Application definition
 
 INSTALLED_APPS = [
+    'tinymce',
     'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
