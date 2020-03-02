@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    {% load static %}
-    <link href=" {% static 'tinymce/css/prism.css' %}" rel="stylesheet">
-</head>
-<body>
-{% for t in tutorials %}
-<p>{{t.tutorial_title}}</p>
-<p>{{t.tutorial_published}}</p>
-<p>{{t.tutorial_content | safe}}</p>
+{% extends "main/header.html" %}
 
-<br>  <br>
-{% endfor %}
-</body>
-<script src=" {%  static 'tinymce/js/prism.js' %}">
-
-</script>
-</html>
+{% block content %}
+<div class="row">
+    {% for t in tutorials %}
+      <div class="col s12 m6 l4">
+        <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+                <span class="card-title">{{t.tutorial_title}}</span>
+                <p style="font-size:70%">{{t.tutorial_published}}</p>
+                <p>{{t.tutorial_content | safe}}</p>
+            </div>
+            <div class="card-action">
+            <a href="#">Visit</a>
+            </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
