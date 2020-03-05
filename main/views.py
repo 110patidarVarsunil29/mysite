@@ -9,7 +9,7 @@ from django.contrib import messages
 def homepage(request):
     return render(request=request,
                   template_name="main/home.html",
-                  context={"tutorials":Tutorial.objects.all()}
+                  context={"tutorials": Tutorial.objects.all()}
                   )
 
 
@@ -36,3 +36,9 @@ def register(request):
     return render(request=request,
                   template_name="main/register.html",
                   context={"form": form})
+
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "User Logout successfully!")
+    return redirect("main:homepage")
