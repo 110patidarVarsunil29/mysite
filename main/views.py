@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from main.models import Tutorial
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from .forms import NewUserForm
 
 
 def homepage(request):
@@ -15,7 +15,7 @@ def homepage(request):
 
 def register(request):
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = NewUserForm(request.POST)
         print(form.is_valid())
         if form.is_valid():
             user = form.save()
@@ -32,7 +32,7 @@ def register(request):
                           template_name="main/register.html",
                           context={"form": form})
 
-    form = UserCreationForm
+    form = NewUserForm
     return render(request=request,
                   template_name="main/register.html",
                   context={"form": form})
