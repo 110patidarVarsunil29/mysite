@@ -21,7 +21,12 @@ def single_slug(request, single_slug):
 
         return render(request=request,
                       template_name='main/category.html',
-                      context={"tutorial_series": matching_series, "part_ones": series_urls})
+                      context={"part_ones": series_urls})
+    tutorials = [t.tutorial_slug for t in Tutorial.objects.all()]
+    if single_slug in tutorials:
+        return HttpResponse(f"{single_slug} is a tutorial!!")
+
+    return HttpResponse(f"{single_slug} does not correspond to anything!")
 
 
 def homepage(request):
