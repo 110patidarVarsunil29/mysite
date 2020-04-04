@@ -13,9 +13,9 @@
         <div class="col s12 m4 l4">
             <ul class="collapsible popout">
                 {% for tutorial in sidebar %}
-                    {% if forloop.counter0 == this_tutorial_idx %}
+                    {% if forloop.counter0 == this_tut_idx %}
                         <li class="active">
-                            <div class="collapsible-header">{{tutorial.tutorial_title}}<br>(currently viewing)</div>
+                            <div class="collapsible-header">{{tutorial.tutorial_title}}<br></div>
                         </li>
                     {% else %}
                         <li>
