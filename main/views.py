@@ -22,7 +22,8 @@ def single_slug(request, single_slug):
 
         return render(request=request,
                       template_name='main/category.html',
-                      context={ "tutorial_series": matching_series, "part_ones": series_urls})
+                      context={ # "tutorial_series": matching_series,
+                                "part_ones": series_urls})
 
     tutorials = [t.tutorial_slug for t in Tutorial.objects.all()]
     if single_slug in tutorials:
@@ -81,9 +82,13 @@ def login_request(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}")
-                return redirect("main:homepage")
+                if user.is_active:
+                    request.session['member_id'] = user.id
+                    print(request.session['member_id'])
+                    request.session.set_expiry(900)  # sets the exp. value of the session
+                    login(request, user)
+                    messages.info(request, f"You are now logged in as {username}")
+                    return redirect("main:homepage")
             else:
                 messages.error(request, "Invalid username or password!")
         else:
@@ -95,6 +100,11 @@ def login_request(request):
 
 
 def logout_request(request):
-    logout(request)
-    messages.info(request, "User Logout successfully!")
+    try:
+        print(request.session['member_id'])
+        logout(request)
+        del request.session['member_id']
+        messages.info(request, "User Logout successfully!")
+    except KeyError:
+        pass
     return redirect("main:homepage")
