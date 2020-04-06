@@ -82,12 +82,17 @@ def login_request(request):
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None:
+                # enable user session (db based session)
                 if user.is_active:
                     request.session['member_id'] = user.id
                     print(request.session['member_id'])
-                    request.session.set_expiry(900)  # sets the exp. value of the session
+                    # request.session.set_expiry(30)  # sets the exp. value of the session
+                    request.session.set_expiry(request.session.get_expiry_age())
                     login(request, user)
                     messages.info(request, f"You are now logged in as {username}")
+                    # if req is None:
+                    #     messages.error(request, "Your session has been expired!")
+                    #     return redirect("main:homepage")
                     return redirect("main:homepage")
             else:
                 messages.error(request, "Invalid username or password!")
