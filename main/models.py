@@ -1,5 +1,17 @@
 from django.db import models
 from datetime import datetime
+from django.conf import settings
+from django.contrib.sessions.models import Session
+
+
+# Model to store the list of logged in users
+
+class UserSession(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='logged_in_user', on_delete=models.CASCADE)
+    session_key = models.CharField(max_length=40, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class TutorialCategory(models.Model):

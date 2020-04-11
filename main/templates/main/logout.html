@@ -1,0 +1,8 @@
+{% extends "main/header.html" %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+    You are logged successfully!
+    </form>
+{% endblock %}

@@ -1,10 +1,20 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from main.models import Tutorial, TutorialCategory, TutorialSeries
+from main.models import Tutorial, TutorialCategory, TutorialSeries, UserSession
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import NewUserForm
+# import logging
+from django.contrib.auth import get_user_model
+from django.contrib.sessions.models import Session
+from datetime import datetime
+
+User = get_user_model()
+
+
+# Get an instance of a logger
+# logger = logging.getLogger('mysite.main')
 
 
 def single_slug(request, single_slug):
@@ -22,8 +32,8 @@ def single_slug(request, single_slug):
 
         return render(request=request,
                       template_name='main/category.html',
-                      context={ # "tutorial_series": matching_series,
-                                "part_ones": series_urls})
+                      context={  # "tutorial_series": matching_series,
+                          "part_ones": series_urls})
 
     tutorials = [t.tutorial_slug for t in Tutorial.objects.all()]
     if single_slug in tutorials:
@@ -52,12 +62,11 @@ def homepage(request):
 def register(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
-        print(form.is_valid())
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f"New account created: {username}")
-            login(request, user)
+            # login(request, user)
             return redirect("main:homepage")
 
         else:
@@ -84,16 +93,23 @@ def login_request(request):
             if user is not None:
                 # enable user session (db based session)
                 if user.is_active:
-                    request.session['member_id'] = user.id
-                    print(request.session['member_id'])
-                    # request.session.set_expiry(30)  # sets the exp. value of the session
+                    user_id = request.session['member_id'] = user.id
                     request.session.set_expiry(request.session.get_expiry_age())
-                    login(request, user)
-                    messages.info(request, f"You are now logged in as {username}")
-                    # if req is None:
-                    #     messages.error(request, "Your session has been expired!")
-                    #     return redirect("main:homepage")
-                    return redirect("main:homepage")
+                    # date 11/04/2020 new concept
+                    current_users = [us.user_id for us in UserSession.objects.all()]
+                    session_details = [Session.objects.filter(expire_date__lte=datetime.now())]
+                    print("check user_id ", user_id)
+                    print("current_users check ", list(current_users))
+                    if user_id in current_users and session_details is not None:
+                        messages.error(request, "user is already active, Please try after some time!")
+                        return redirect("main:login")
+                    else:
+                        login(request, user)
+                        messages.info(request, f"You are now logged in as {username}")
+                        return redirect("main:homepage")
+                # date 11/04/2020 end new concept
+                else:
+                    messages.error(request, "Invalid username or password!")
             else:
                 messages.error(request, "Invalid username or password!")
         else:
@@ -112,4 +128,5 @@ def logout_request(request):
         messages.info(request, "User Logout successfully!")
     except KeyError:
         pass
-    return redirect("main:homepage")
+    return render(request,
+                  "main/logout.html")
