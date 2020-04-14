@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
 from datetime import datetime
 
-User = get_user_model()
+# User = get_user_model()
 
 
 # Get an instance of a logger
@@ -35,11 +35,14 @@ def single_slug(request, single_slug):
                       context={  # "tutorial_series": matching_series,
                           "part_ones": series_urls})
 
+
+def double_slug(request, single_slug, double_slug):
     tutorials = [t.tutorial_slug for t in Tutorial.objects.all()]
-    if single_slug in tutorials:
-        this_tutorial = Tutorial.objects.get(tutorial_slug=single_slug)
+    if double_slug in tutorials:
+        this_tutorial = Tutorial.objects.get(tutorial_slug=double_slug)
         tutorials_form_series = Tutorial.objects.filter(
-            tutorial_series__tutorial_series=this_tutorial.tutorial_series).order_by("tutorial_published")
+            tutorial_series__tutorial_series=this_tutorial.tutorial_series).\
+            order_by("tutorial_published")
 
         this_tutorial_idx = list(tutorials_form_series).index(this_tutorial)
 
@@ -49,7 +52,7 @@ def single_slug(request, single_slug):
                                "sidebar": tutorials_form_series,
                                "this_tutorial_idx": this_tutorial_idx})
 
-    return HttpResponse(f"{single_slug} does not correspond to anything!")
+    return HttpResponse(f"{double_slug} does not correspond to anything!")
 
 
 def homepage(request):
