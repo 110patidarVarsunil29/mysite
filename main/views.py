@@ -1,20 +1,48 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from main.models import Tutorial, TutorialCategory, TutorialSeries, UserSession
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .forms import NewUserForm
+from .forms import NewUserForm, forms, ContactForm
 # import logging
-from django.contrib.auth import get_user_model
 from django.contrib.sessions.models import Session
 from datetime import datetime
+from django.conf import settings
+from django.core.mail import send_mail, BadHeaderError
 
-# User = get_user_model()
 
+def contact(request):
+    if request.method == "POST":
+        subject = 'Mail from Vjsh.'
+        full_name = request.POST.get('full_name', '')
+        email_address = request.POST.get('email_address', '')
+        message = request.POST.get('message', '')
+        email_content = "Full Name:=" + full_name + "\n" + "Email Address:= " + email_address + "\n" + message
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['patidarsunil110@gmail.com']
+        if subject and message:
+            try:
+                send_mail(subject, email_content, email_from, recipient_list)
+            except BadHeaderError:
+                return render(request=request,
+                              template_name="main/contact.html",
+                              context={"email_error": "Invalid header found."})
+            return render(request=request,
+                          template_name="main/contact.html",
+                          context={"email_info": "Thank you for contacting to us, we will contact soon!."})
 
-# Get an instance of a logger
-# logger = logging.getLogger('mysite.main')
+        else:
+            # In reality we'd use a form class
+            # to get proper validation errors.
+            return render(request=request,
+                          template_name="main/contact.html",
+                          context={"email_filed": "Make sure all fields are entered and valid."})
+    else:
+        form = ContactForm()
+        return render(request,
+                      "main/contact.html",
+                      {"form": form})
 
 
 def single_slug(request, single_slug):
@@ -41,7 +69,7 @@ def double_slug(request, single_slug, double_slug):
     if double_slug in tutorials:
         this_tutorial = Tutorial.objects.get(tutorial_slug=double_slug)
         tutorials_form_series = Tutorial.objects.filter(
-            tutorial_series__tutorial_series=this_tutorial.tutorial_series).\
+            tutorial_series__tutorial_series=this_tutorial.tutorial_series). \
             order_by("tutorial_published")
 
         this_tutorial_idx = list(tutorials_form_series).index(this_tutorial)

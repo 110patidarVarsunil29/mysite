@@ -1,0 +1,14 @@
+{% extends "main/header.html" %}
+
+{{email_filed}}
+{{email_error}}
+{{email_info}}
+{% block content %}
+<h1>Contact</h1>
+<form role="form"  method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+{% endblock %}

@@ -16,3 +16,14 @@ class NewUserForm(UserCreationForm):
             if commit:
                 user.save()
             return user
+
+# Sending mail
+
+
+class ContactForm(forms.Form):
+    full_name = forms.CharField(required=True)
+    email_address = forms.EmailField(required=True)
+    message = forms.CharField(
+        required=True,
+        widget=forms.Textarea(attrs={'rows':80, 'cols':20}),
+    )
