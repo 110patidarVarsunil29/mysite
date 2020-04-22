@@ -50,3 +50,13 @@ class Tutorial(models.Model):
 
     def __str__(self):
         return self.tutorial_title
+
+
+# Managing Files and upload files
+
+class UserProfile(models.Model):
+    fname = models.CharField(max_length=200)
+    display_picture = models.FileField()
+
+    def __str__(self):
+        return self.fname

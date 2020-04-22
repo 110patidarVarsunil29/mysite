@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from main.models import UserProfile
+
 
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -17,6 +19,7 @@ class NewUserForm(UserCreationForm):
                 user.save()
             return user
 
+
 # Sending mail
 
 
@@ -25,5 +28,16 @@ class ContactForm(forms.Form):
     email_address = forms.EmailField(required=True)
     message = forms.CharField(
         required=True,
-        widget=forms.Textarea(attrs={'rows':80, 'cols':20}),
+        widget=forms.Textarea(attrs={'rows': 80, 'cols': 20}),
     )
+
+
+# Managing files
+
+class Profile_Form(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = [
+            'fname',
+            'display_picture'
+        ]

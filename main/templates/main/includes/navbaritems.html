@@ -5,8 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-    <li><a href="/">Home</a></li>
+        <li><a href="/">Home</a></li>
         <li><a href="/contact">Contact</a></li>
+        <li><a href="/upload">Upload Profile</a></li>
         {% if user.is_authenticated %}
              <li><a href="/account">{{user.username|title}}</a></li>
              <li><a href="/logout">Logout</a></li>

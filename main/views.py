@@ -1,10 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from main.models import Tutorial, TutorialCategory, TutorialSeries, UserSession
+from main.models import Tutorial, TutorialCategory, TutorialSeries, UserSession, UserProfile
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
-from .forms import NewUserForm, forms, ContactForm
+from .forms import NewUserForm, forms, ContactForm, Profile_Form
 # import logging
 from django.contrib.sessions.models import Session
 from datetime import datetime
@@ -12,6 +12,29 @@ from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
 
 
+# Managing files
+IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
+
+
+def create_profile(request):
+    form = Profile_Form()
+    if request.method == 'POST':
+        form = Profile_Form(request.POST, request.FILES)
+        if form.is_valid():
+            user_pr = form.save(commit=False)
+            user_pr.display_picture = request.FILES['display_picture']
+            file_type = user_pr.display_picture.url.split('.')[-1]
+            file_type = file_type.lower()
+            if file_type not in IMAGE_FILE_TYPES:
+                return render(request, 'main/profile_error.html')
+            user_pr.save()
+            return render(request, 'main/profile_details.html', {'user_pr': user_pr})
+    else:
+        context = {"form": form}
+        return render(request, 'main/profile_create.html', context)
+
+
+# sending mail
 def contact(request):
     if request.method == "POST":
         subject = 'Mail from Vjsh.'

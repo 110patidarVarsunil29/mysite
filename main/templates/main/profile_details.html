@@ -1,0 +1,14 @@
+{% extends 'main/profile_create.html' %}
+{% block replace %}
+<CENTER>
+<div class="jumbotron">
+  <h1 class="display-4">Welcome to Mysite<br>Hello {{ user_pr.fname }}</h1>
+  <p class="lead">its an awesome profile picture</p>
+  <hr class="my-4">
+  <img src="{{ user_pr.display_picture.url }}" class="image_responsive" height="100px" width="100px">
+  <p>
+    {{ user_pr.display_picture.url }}<BR>
+  </p>
+</div>
+</CENTER>
+{% endblock %}

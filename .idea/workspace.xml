@@ -4,7 +4,7 @@
     <list default="true" id="43ad56bf-1420-4b36-9876-137b318ce14b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/templates/main/categories.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/categories.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/templates/main/includes/navbaritems.html" beforeDir="false" afterPath="$PROJECT_DIR$/main/templates/main/includes/navbaritems.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/main/views.py" afterDir="false" />
@@ -124,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586871494376</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added sending mail functionality into views.py and contact.html files">
+      <created>1587407512813</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1587407512814</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -146,6 +153,7 @@
     <MESSAGE value="added session in views.py and set session limit for users." />
     <MESSAGE value="Prevent Multiple session for one single user and extend session time by user activity till 3 minutes." />
     <MESSAGE value="Added Double slug into urls.py and views.py files but tutorial.html file has url issue, we'll fix after category slug import into tutorial.html." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Double slug into urls.py and views.py files but tutorial.html file has url issue, we'll fix after category slug import into tutorial.html." />
+    <MESSAGE value="Added sending mail functionality into views.py and contact.html files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added sending mail functionality into views.py and contact.html files" />
   </component>
 </project>
