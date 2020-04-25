@@ -5,9 +5,9 @@
   <h1 class="display-4">Welcome to Mysite<br>Hello {{ user_pr.fname }}</h1>
   <p class="lead">its an awesome profile picture</p>
   <hr class="my-4">
-  <img src="{{ user_pr.display_picture.url }}" class="image_responsive" height="100px" width="100px">
+  <img src="{{ MEDIA_URL }}{{ user_pr.display_picture }}"  class="image_responsive" height="500px" width="500px">
   <p>
-    {{ user_pr.display_picture.url }}<BR>
+    This is a Media Page location {{ user_pr.display_picture.url }}<BR>
   </p>
 </div>
 </CENTER>

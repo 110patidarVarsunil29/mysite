@@ -9,8 +9,7 @@ from .forms import NewUserForm, forms, ContactForm, Profile_Form
 from django.contrib.sessions.models import Session
 from datetime import datetime
 from django.conf import settings
-from django.core.mail import send_mail, BadHeaderError
-
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
 
 # Managing files
 IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
@@ -37,16 +36,23 @@ def create_profile(request):
 # sending mail
 def contact(request):
     if request.method == "POST":
-        subject = 'Mail from Vjsh.'
+        subject = 'Mail from Mysite.'
         full_name = request.POST.get('full_name', '')
         email_address = request.POST.get('email_address', '')
         message = request.POST.get('message', '')
+        file_path = request.POST.get('file_path', '')
+        file_path = file_path.name
         email_content = "Full Name:=" + full_name + "\n" + "Email Address:= " + email_address + "\n" + message
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = ['patidarsunil110@gmail.com']
+        recipient_list = ['patidarsunil110@gmail.com', 'sunilpatidarjah5437@gmail.com']
+        email = EmailMessage(
+            subject, email_content, email_from, recipient_list)
         if subject and message:
             try:
-                send_mail(subject, email_content, email_from, recipient_list)
+                # File attachment in mail.
+                email.attach_file(file_path)
+                email.send()
+                # send_mail(subject, email_content, email_from, recipient_list)
             except BadHeaderError:
                 return render(request=request,
                               template_name="main/contact.html",

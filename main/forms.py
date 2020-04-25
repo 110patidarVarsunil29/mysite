@@ -26,6 +26,7 @@ class NewUserForm(UserCreationForm):
 class ContactForm(forms.Form):
     full_name = forms.CharField(required=True)
     email_address = forms.EmailField(required=True)
+    file_path = forms.CharField(max_length=200)
     message = forms.CharField(
         required=True,
         widget=forms.Textarea(attrs={'rows': 80, 'cols': 20}),
